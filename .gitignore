@@ -1,0 +1,15 @@
+__pycache__/
+.ipynb_checkpoints/
+.env
+*.pyc
+models/*.joblib
+data/interim/*
+data/processed/*
+reports/figures/*
+reports/tables/*
+!data/interim/.gitkeep
+!data/processed/.gitkeep
+!reports/figures/.gitkeep
+!reports/tables/.gitkeep
+
+!models/.gitkeep
