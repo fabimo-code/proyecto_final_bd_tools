@@ -861,9 +861,9 @@ El proyecto implementa una solución integral de análisis de datos y herramient
 
 ## Autores
 
-* Nombre del estudiante 1
-* Nombre del estudiante 2
-* Nombre del estudiante 3
+* Fabian Moya
+* Mariana Olivares
+* Nicolas Rodriguez 
 
 ---
 
@@ -887,9 +887,4 @@ Hugo Franco, Ph.D.
 
 ````
 
-```text
-Fabian Moya
-Mariana Olivares
-Nicolas Rodriguez 
-````
 
