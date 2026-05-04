@@ -1,0 +1,15 @@
+pandas
+numpy
+matplotlib
+seaborn
+scikit-learn
+jupyter
+ipykernel
+prefect
+sqlalchemy
+psycopg2-binary
+pymongo
+python-dotenv
+geopandas
+shapely
+pyarrow

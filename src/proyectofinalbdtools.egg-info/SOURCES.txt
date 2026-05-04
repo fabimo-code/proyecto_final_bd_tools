@@ -1,0 +1,15 @@
+README.md
+pyproject.toml
+src/bdtools/__init__.py
+src/bdtools/cleaning.py
+src/bdtools/config.py
+src/bdtools/databases.py
+src/bdtools/eda.py
+src/bdtools/geo.py
+src/bdtools/io.py
+src/bdtools/loaders.py
+src/bdtools/modeling.py
+src/proyectofinalbdtools.egg-info/PKG-INFO
+src/proyectofinalbdtools.egg-info/SOURCES.txt
+src/proyectofinalbdtools.egg-info/dependency_links.txt
+src/proyectofinalbdtools.egg-info/top_level.txt

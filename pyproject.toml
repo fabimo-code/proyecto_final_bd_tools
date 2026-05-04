@@ -1,0 +1,12 @@
+[project]
+name = "proyectofinalbdtools"
+version = "0.2.0"
+description = "Proyecto final Big Data Tools - SIEVCAC"
+requires-python = ">=3.11"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
