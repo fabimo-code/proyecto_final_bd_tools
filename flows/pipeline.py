@@ -34,6 +34,9 @@ def task_load_postgres(df):
     write_postgres(df)
     return postgres_summary()
 
+@task
+def task_statistics(df):
+    return run_statistics(df)
 
 @task(retries=2, retry_delay_seconds=5)
 def task_load_mongo(df):
@@ -41,24 +44,24 @@ def task_load_mongo(df):
     return "Carga MongoDB completada"
 
 
-@flow(name="sievcac-big-data-tools-pipeline")
-def sievcac_flow(load_databases: bool = False):
+@flow
+def sievcac_flow(load_databases=False):
     df = task_etl()
+
     eda_outputs = task_eda(df)
+    stats_outputs = task_statistics(df)
     geo_output = task_geo(df)
     model_outputs = task_model(df)
 
-    db_outputs = {}
     if load_databases:
-        db_outputs["postgres"] = task_load_postgres(df)
-        db_outputs["mongo"] = task_load_mongo(df)
+        task_load_postgres(df)
+        task_load_mongo(df)
 
     return {
-        "filas": len(df),
-        "eda": list(eda_outputs.keys()),
-        "geo_registros": len(geo_output),
-        "model_features": model_outputs["features"],
-        "databases": db_outputs,
+        "eda": eda_outputs,
+        "statistics": stats_outputs,
+        "geo": geo_output,
+        "modeling": model_outputs,
     }
 
 

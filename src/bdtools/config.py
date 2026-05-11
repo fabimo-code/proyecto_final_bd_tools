@@ -1,75 +1,72 @@
-from __future__ import annotations
-
-import os
-from dataclasses import dataclass
 from pathlib import Path
 
-try:
-    from dotenv import load_dotenv
-except ImportError:
-    load_dotenv = None
-
-
 ROOT_DIR = Path(__file__).resolve().parents[2]
+DATA_DIR = ROOT_DIR / "data"
+RAW_DIR = DATA_DIR / "raw"
+PROCESSED_DIR = DATA_DIR / "processed"
+REPORTS_DIR = ROOT_DIR / "reports"
+FIGURES_DIR = REPORTS_DIR / "figures"
+TABLES_DIR = REPORTS_DIR / "tables"
 
-if load_dotenv is not None:
-    load_dotenv(ROOT_DIR / ".env")
+RAW_DATA_FILE = RAW_DIR / "Caso_Conflicto_Armado.xlsx"
+CLEAN_CSV = PROCESSED_DIR / "sievcac_limpio.csv"
+CLEAN_PARQUET = PROCESSED_DIR / "sievcac_limpio.parquet"
+QUALITY_TABLE = TABLES_DIR / "calidad_datos.csv"
 
+RANDOM_STATE = 42
+NULL_THRESHOLD = 0.90
 
-@dataclass(frozen=True)
-class ProjectPaths:
-    root: Path = ROOT_DIR
-    data_raw: Path = ROOT_DIR / "data" / "raw"
-    data_processed: Path = ROOT_DIR / "data" / "processed"
-    reports: Path = ROOT_DIR / "reports"
-    figures: Path = ROOT_DIR / "reports" / "figures"
-    tables: Path = ROOT_DIR / "reports" / "tables"
-    models: Path = ROOT_DIR / "models"
+ID_COL = "id_caso"
+TARGET_COL = "alto_impacto"
+VICTIMS_COL = "total_victimas_caso"
+GEO_SOURCE_COL = "latitud_longitud"
 
-    @property
-    def clean_csv(self) -> Path:
-        return self.data_processed / "sievcac_limpio.csv"
+DATE_COLUMNS = {
+    "year": "anio",
+    "month": "mes",
+    "day": "dia",
+}
 
-    @property
-    def clean_parquet(self) -> Path:
-        return self.data_processed / "sievcac_limpio.parquet"
+TEXT_COLUMNS = [
+    "departamento",
+    "municipio",
+    "region",
+    "modalidad",
+    "presunto_responsable",
+    "tipo_vinculacion",
+    "forma_vinculacion",
+]
 
-    @property
-    def geojson(self) -> Path:
-        return self.data_processed / "sievcac_geo.geojson"
+HECHOS_COLUMNS = [
+    "abandono_o_despojo_forzado_de_tierras",
+    "amenaza_o_intimidacion",
+    "ataque_contra_mision_medica",
+    "confinamiento_o_restriccion_a_la_movilidad",
+    "desplazamiento_forzado",
+    "extorsion",
+    "lesionados_civiles",
+    "pillaje",
+    "tortura",
+]
 
+MODEL_FEATURES = [
+    "anio_valido",
+    "mes_valido",
+    "departamento",
+    "municipio",
+    "region",
+    "modalidad",
+    "presunto_responsable",
+    "tipo_vinculacion",
+    "forma_vinculacion",
+    "latitud",
+    "longitud",
+    "total_hechos",
+]
 
-@dataclass(frozen=True)
-class DatabaseConfig:
-    postgres_host: str = os.getenv("POSTGRES_HOST", "localhost")
-    postgres_port: str = os.getenv("POSTGRES_PORT", "5432")
-    postgres_db: str = os.getenv("POSTGRES_DB", "sievcac")
-    postgres_user: str = os.getenv("POSTGRES_USER", "bdtools")
-    postgres_password: str = os.getenv("POSTGRES_PASSWORD", "bdtools")
-
-    mongo_uri: str = os.getenv("MONGO_URI", "mongodb://localhost:27017")
-    mongo_db: str = os.getenv("MONGO_DB", "sievcac")
-    mongo_collection: str = os.getenv("MONGO_COLLECTION", "casos")
-
-    @property
-    def postgres_url(self) -> str:
-        return (
-            f"postgresql+psycopg2://{self.postgres_user}:"
-            f"{self.postgres_password}@{self.postgres_host}:"
-            f"{self.postgres_port}/{self.postgres_db}"
-        )
-
-
-PATHS = ProjectPaths()
-DB = DatabaseConfig()
-
-
-def ensure_directories(paths: ProjectPaths = PATHS) -> None:
-    for path in [
-        paths.data_raw,
-        paths.data_processed,
-        paths.figures,
-        paths.tables,
-        paths.models,
-    ]:
-        path.mkdir(parents=True, exist_ok=True)
+DIRECTORIES = [
+    RAW_DIR,
+    PROCESSED_DIR,
+    FIGURES_DIR,
+    TABLES_DIR,
+]
